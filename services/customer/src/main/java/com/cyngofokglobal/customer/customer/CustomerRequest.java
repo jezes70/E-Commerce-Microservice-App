@@ -15,5 +15,4 @@ public record CustomerRequest(
         String email,
         Address address
 
-) {
-}
+) {}

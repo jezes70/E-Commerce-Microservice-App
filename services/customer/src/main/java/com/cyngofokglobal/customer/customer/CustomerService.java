@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
+
 @Service
 @RequiredArgsConstructor
-public class CustomerServer {
+public class CustomerService {
 
     private final CustomerRepository repository;
 
@@ -23,7 +25,7 @@ public class CustomerServer {
     public void updateCustomer(CustomerRequest request) {
         var customer = repository.findById(request.id())
                 .orElseThrow(() -> new CustomerNotFoundException(
-                        String.format("Cannot update customer:: No customer found with the provided ID:: %s", request.id())
+                        format("Cannot update customer:: No customer found with the provided ID:: %s", request.id())
                 ));
         mergerCustomer(customer, request);
         repository.save(customer);
@@ -49,5 +51,20 @@ public class CustomerServer {
                 .stream()
                 .map(mapper::fromCustomer)
                 .collect(Collectors.toList());
+    }
+
+    public Boolean existsById(String customerId) {
+        return repository.findById(customerId).isPresent();
+
+    }
+
+    public CustomerResponse findById(String customerId) {
+        return repository.findById(customerId)
+                .map(mapper::fromCustomer)
+                .orElseThrow(() -> new CustomerNotFoundException(format("No customer found with the provided ID:: %s", customerId)));
+    }
+
+    public void deleteCustomer(String customerId) {
+        repository.deleteById(customerId);
     }
 }

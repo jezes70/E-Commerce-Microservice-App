@@ -1,8 +1,10 @@
 package com.cyngofokglobal.customer.customer;
 
+import lombok.Builder;
 import org.springframework.stereotype.Service;
 
 @Service
+@Builder
 public class CustomerMapper {
     public Customer toCustomer(CustomerRequest request) {
         return Customer.builder()

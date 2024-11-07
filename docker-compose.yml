@@ -13,22 +13,19 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "3307:3306"
     networks:
       - microservices-net
     restart: unless-stopped
 
-  phpmyadmin:
-    container_name: ms_phpmyadmin
-    image: phpmyadmin/phpmyadmin
+  adminer:
+    container_name: ms_adminer
+    image: adminer
     init: true
     environment:
-      PMA_HOST: mysql
-      PMA_USER: morris
-      PMA_PASSWORD: morris
-      PMA_PORT: 3306
+      ADMINER_DEFAULT_SERVER: mysql
     ports:
-      - "8080:80"
+      - "8084:80"
     networks:
       - microservices-net
     restart: unless-stopped

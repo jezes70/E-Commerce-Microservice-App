@@ -6,5 +6,4 @@ public record CustomerResponse(
         String lastName,
         String email,
         Address address
-) {
-}
+) {}
