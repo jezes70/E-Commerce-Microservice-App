@@ -37,7 +37,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongo:/data
+      - mongo_data:/data
     environment:
       MONGO_INITDB_ROOT_USERNAME: morris
       MONGO_INITDB_ROOT_PASSWORD: morris
@@ -71,7 +71,7 @@ services:
    networks:
      - microservices-net
   kafka:
-    image: confluentinc//cp-kafka:latest
+    image: confluentinc/cp-kafka:latest
     container_name: ms_kafka
     ports:
       - 9092:9092
