@@ -8,8 +8,12 @@ import com.cyngofokglobal.order.orderline.OrderLineRequest;
 import com.cyngofokglobal.order.orderline.OrderLineService;
 import com.cyngofokglobal.order.product.ProductClient;
 import com.cyngofokglobal.order.product.PurchaseRequest;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +45,8 @@ public class OrderService {
             );
         }
 
+
+
         orderProducer.sendOrderConfirmation(
                 new OrderConfirmation(
                         request.reference(),
@@ -53,5 +59,18 @@ public class OrderService {
 
 
         return order.getId();
+    }
+
+    public List<OrderResponse> findAll() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::fromOrder)
+                .collect(Collectors.toList());
+    }
+
+    public OrderResponse findById(Integer orderId) {
+        return repository.findById(orderId)
+                .map(mapper::fromOrder)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("No oder found with the provided ID: %d", orderId)));
     }
 }
