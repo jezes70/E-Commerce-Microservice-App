@@ -6,6 +6,8 @@ import com.cyngofokglobal.order.kafka.OrderConfirmation;
 import com.cyngofokglobal.order.kafka.OrderProducer;
 import com.cyngofokglobal.order.orderline.OrderLineRequest;
 import com.cyngofokglobal.order.orderline.OrderLineService;
+import com.cyngofokglobal.order.payment.PaymentClient;
+import com.cyngofokglobal.order.payment.PaymentRequest;
 import com.cyngofokglobal.order.product.ProductClient;
 import com.cyngofokglobal.order.product.PurchaseRequest;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,6 +27,7 @@ public class OrderService {
     private final OrderMapper mapper;
     private final OrderLineService orderLineService;
     private final OrderProducer orderProducer;
+    private  final PaymentClient paymentClient;
     public Integer createdOrder(OrderRequest request) {
         var customer = this.customerClient.findCustomerById(request.customerId())
                 .orElseThrow(() -> new BusinessException("Cannot create order:: No Customer exists with the provided ID"));
@@ -45,7 +48,14 @@ public class OrderService {
             );
         }
 
-
+        var paymentRequest = new PaymentRequest(
+                request.amount(),
+                request.paymentMethod(),
+                order.getId(),
+                order.getReference(),
+                customer
+        );
+        paymentClient.requestOrderPayment(paymentRequest);
 
         orderProducer.sendOrderConfirmation(
                 new OrderConfirmation(
@@ -57,17 +67,14 @@ public class OrderService {
                 )
         );
 
-
         return order.getId();
     }
-
     public List<OrderResponse> findAll() {
         return repository.findAll()
                 .stream()
                 .map(mapper::fromOrder)
                 .collect(Collectors.toList());
     }
-
     public OrderResponse findById(Integer orderId) {
         return repository.findById(orderId)
                 .map(mapper::fromOrder)
