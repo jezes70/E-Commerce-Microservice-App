@@ -6,5 +6,4 @@ public record Customer(
         String firstname,
         String lastname,
         String email
-) {
-}
+) {}

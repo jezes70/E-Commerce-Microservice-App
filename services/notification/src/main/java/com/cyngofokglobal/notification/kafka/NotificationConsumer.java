@@ -1,10 +1,12 @@
 package com.cyngofokglobal.notification.kafka;
 
 import com.cyngofokglobal.notification.email.EmailService;
+import com.cyngofokglobal.notification.kafka.order.OrderCancellation;
 import com.cyngofokglobal.notification.kafka.order.OrderConfirmation;
 import com.cyngofokglobal.notification.kafka.payment.PaymentConfirmation;
 import com.cyngofokglobal.notification.notification.Notification;
 import com.cyngofokglobal.notification.notification.NotificationRepository;
+import com.cyngofokglobal.notification.notification.NotificationType;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-import static com.cyngofokglobal.notification.notification.NotificationType.ORDER_CONFIRMATION;
 import static com.cyngofokglobal.notification.notification.NotificationType.PAYMENT_CONFIRMATION;
 import static java.lang.String.format;
 
@@ -49,7 +50,7 @@ public class NotificationConsumer {
         log.info(format("Consuming the message from order-topic Topic:: %s", orderConfirmation));
         repository.save(
                 Notification.builder()
-                        .type(ORDER_CONFIRMATION)
+                        .type(NotificationType.ORDER_CONFIRMATION)
                         .notificationDate(LocalDateTime.now())
                         .orderConfirmation(orderConfirmation)
                         .build()
@@ -64,5 +65,25 @@ public class NotificationConsumer {
                 orderConfirmation.products()
         );
 
+    }
+
+    @KafkaListener(topics = "cancel-order-topic")
+    public void consumeCancelOrderNotification(OrderCancellation orderCancellation) throws MessagingException {
+        log.info(format("Consuming the message from cancel-order-topic Topic:: %s", orderCancellation));
+        repository.save(
+                Notification.builder()
+                        .type(NotificationType.CANCEL_ORDER_CONFIRMATION)
+                        .notificationDate(LocalDateTime.now())
+                        .orderCancellation(orderCancellation)
+                        .build()
+        );
+
+        var customerName = orderCancellation.customer().firstname() + " " + orderCancellation.customer().lastname();
+        emailService.sendCancelOrderConfirmationEmail(
+                orderCancellation.customer().email(),
+                customerName,
+                orderCancellation.refundedAmount().getAmount(),
+                orderCancellation.orderReference()
+        );
     }
 }

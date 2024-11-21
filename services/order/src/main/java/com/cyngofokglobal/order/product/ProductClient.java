@@ -37,9 +37,6 @@ public class ProductClient {
     public void revertProductPurchase(Integer productId, double quantity) {
         RevertPurchaseRequest revertRequest = new RevertPurchaseRequest(productId, quantity);
 
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         HttpEntity<RevertPurchaseRequest> requestEntity = new HttpEntity<>(revertRequest, headers);

@@ -89,7 +89,7 @@ public class OrderService {
         var orderLines = orderLineService.findOrderLinesByOrderId(orderId);
 
         orderLines.forEach(orderLine -> {
-            productClient.revertProductPurchase(orderLine.getProductId(), orderLine.getQuantity());
+            productClient.revertProductPurchase(orderLine.productId(), orderLine.quantity());
         });
 
         paymentClient.requestOrderRefund(order.getId());

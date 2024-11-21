@@ -17,8 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.cyngofokglobal.notification.email.EmailTemplates.ORDER_CONFIRMATION;
-import static com.cyngofokglobal.notification.email.EmailTemplates.PAYMENT_CONFIRMATION;
+import static com.cyngofokglobal.notification.email.EmailTemplates.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.mail.javamail.MimeMessageHelper.MULTIPART_MODE_RELATED;
 
@@ -64,7 +63,6 @@ public class EmailService {
 
         }
     }
-
     @Async
     public void sendOrderConfirmationEmail(
             String destinationEmail,
@@ -99,6 +97,40 @@ public class EmailService {
         } catch (MessagingException exp) {
             log.warn("WARNING - Cannot send email to {}", destinationEmail);
 
+        }
+    }
+
+    @Async
+    public void sendCancelOrderConfirmationEmail(
+            String destinationEmail,
+            String customerName,
+            BigDecimal refundedAmount,
+            String orderReference
+    ) throws MessagingException {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MULTIPART_MODE_RELATED, UTF_8.name());
+        messageHelper.setFrom("qeenzymorriz@protonmail.com");
+        final String templateName = CANCEL_ORDER_CONFIRMATION.getTemplate();
+
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("customerName", customerName);
+        variables.put("refundedAmount", refundedAmount);
+        variables.put("orderReference", orderReference);
+
+        Context context = new Context();
+        context.setVariables(variables);
+        messageHelper.setSubject(CANCEL_ORDER_CONFIRMATION.getTemplate());
+
+        try {
+            String htmlTemplate = templateEngine.process(templateName, context);
+            messageHelper.setText(htmlTemplate, true);
+
+            messageHelper.setTo(destinationEmail);
+            mailSender.send(mimeMessage);
+            log.info(String.format("INFO - Cancel order email successfully sent to %s with template %s,", destinationEmail, templateName));
+
+        } catch (MessagingException exp) {
+            log.warn("WARNING - Cannot send cancel order email to {}", destinationEmail);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.cyngofokglobal.notification.notification;
 
+import com.cyngofokglobal.notification.kafka.order.OrderCancellation;
 import com.cyngofokglobal.notification.kafka.order.OrderConfirmation;
 import com.cyngofokglobal.notification.kafka.payment.PaymentConfirmation;
 import lombok.*;
@@ -21,5 +22,6 @@ public class Notification {
     private NotificationType type;
     private LocalDateTime notificationDate;
     private OrderConfirmation orderConfirmation;
+    private OrderCancellation orderCancellation;
     private PaymentConfirmation paymentConfirmation;
 }
