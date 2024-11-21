@@ -34,4 +34,22 @@ public class ProductClient {
         return responseEntity.getBody();
     }
 
+    public void revertProductPurchase(Integer productId, double quantity) {
+        RevertPurchaseRequest revertRequest = new RevertPurchaseRequest(productId, quantity);
+
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        HttpEntity<RevertPurchaseRequest> requestEntity = new HttpEntity<>(revertRequest, headers);
+
+        ResponseEntity<Void> responseEntity = restTemplate.exchange(
+                productUrl + "/revertPurchase", HttpMethod.POST, requestEntity, Void.class
+        );
+
+        if (responseEntity.getStatusCode().isError()) {
+            throw new BusinessException("An error occurred while reverting the product purchase: " + responseEntity.getStatusCode());
+        }
+    }
 }

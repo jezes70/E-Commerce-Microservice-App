@@ -21,4 +21,8 @@ public class OrderLine {
     private Integer productId;
     private double quantity;
 
+    public Integer getOrderId() {
+        return this.order != null ? this.order.getId() : null;
+    }
 }
+

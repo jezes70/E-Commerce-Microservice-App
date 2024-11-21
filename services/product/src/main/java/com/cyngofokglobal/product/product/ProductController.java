@@ -13,6 +13,7 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+
     @PostMapping
     public ResponseEntity<Integer> createProduct(@RequestBody @Valid ProductRequest request) {
        return ResponseEntity.ok(productService.createProduct(request));
@@ -29,5 +30,11 @@ public class ProductController {
 
     public ResponseEntity<List<ProductResponse>> findAll() {
         return ResponseEntity.ok(productService.findAll());
+    }
+
+    @DeleteMapping("/{product-id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable("product-id") Integer productId) {
+        productService.deleteProduct(productId);
+        return ResponseEntity.noContent().build();
     }
 }

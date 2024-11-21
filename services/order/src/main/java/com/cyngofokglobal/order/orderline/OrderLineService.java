@@ -17,11 +17,18 @@ public class OrderLineService {
         return repository.save(order).getId();
 
     }
-
     public List<OrderLineResponse> findAllByOrderId(Integer orderId) {
          return repository.findAllByOrderId(orderId)
                  .stream()
                  .map(mapper::toOrderLineResponse)
                  .collect(Collectors.toList());
+    }
+
+    public List<OrderLineResponse> findOrderLinesByOrderId(Integer orderId) {
+        var orderLines = repository.findByOrderId(orderId);
+
+        return orderLines.stream()
+                .map(mapper::fromOrderLine)
+                .collect(Collectors.toList());
     }
 }

@@ -17,15 +17,19 @@ public class OrderController {
     public ResponseEntity<Integer> createOrder(@RequestBody @Valid OrderRequest request) {
         return ResponseEntity.ok(service.createdOrder(request));
     }
-
     @GetMapping
     public ResponseEntity<List<OrderResponse>> findAll() {
         return ResponseEntity.ok(service.findAll());
 
     }
-
     @GetMapping("/{order-id}")
     public ResponseEntity<OrderResponse> findById(@PathVariable("order-id") Integer orderId) {
         return ResponseEntity.ok(service.findById(orderId));
+    }
+
+    @DeleteMapping("/{order-id}/cancel")
+    public ResponseEntity<Void> cancelOrder(@PathVariable("order-id") Integer orderId) {
+        service.cancelOrder(orderId);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -39,4 +39,7 @@ public class Order {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
+
+    public void setStatus(String canceled) {
+    }
 }

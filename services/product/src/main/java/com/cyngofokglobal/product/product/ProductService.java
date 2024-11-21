@@ -63,4 +63,11 @@ public class ProductService {
                 .map(mapper::toProductResponse)
                 .collect(Collectors.toList());
     }
+
+    public void deleteProduct(Integer productId) {
+        if (!repository.existsById(productId)) {
+            throw new EntityNotFoundException("Product not found with the ID:: " + productId);
+        }
+        repository.deleteById(productId);
+    }
 }

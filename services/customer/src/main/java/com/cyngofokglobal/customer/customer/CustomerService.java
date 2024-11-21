@@ -39,7 +39,7 @@ public class CustomerService {
             customer.setFirstName(request.lastName());
         }
         if (StringUtils.isNotBlank(request.email())) {
-            customer.setFirstName(request.email());
+            customer.setEmail(request.email());
         }
         if (request.address() != null) {
             customer.setAddress(request.address());

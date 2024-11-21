@@ -12,7 +12,6 @@ import java.util.List;
 public record OrderRequest(
 
         Integer id,
-
         String reference,
         @Positive(message = "Order amount should be positive")
         BigDecimal amount,

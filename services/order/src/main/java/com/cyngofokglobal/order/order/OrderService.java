@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
+
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -47,7 +49,6 @@ public class OrderService {
 
             );
         }
-
         var paymentRequest = new PaymentRequest(
                 request.amount(),
                 request.paymentMethod(),
@@ -78,6 +79,22 @@ public class OrderService {
     public OrderResponse findById(Integer orderId) {
         return repository.findById(orderId)
                 .map(mapper::fromOrder)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("No oder found with the provided ID: %d", orderId)));
+                .orElseThrow(() -> new EntityNotFoundException(format("No oder found with the provided ID: %d", orderId)));
+    }
+
+    public void cancelOrder(Integer orderId) {
+        var order = repository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException(format("No order found with the provided ID: %d", orderId)));
+
+        var orderLines = orderLineService.findOrderLinesByOrderId(orderId);
+
+        orderLines.forEach(orderLine -> {
+            productClient.revertProductPurchase(orderLine.getProductId(), orderLine.getQuantity());
+        });
+
+        paymentClient.requestOrderRefund(order.getId());
+
+        order.setStatus("CANCELED");
+        repository.save(order);
     }
 }

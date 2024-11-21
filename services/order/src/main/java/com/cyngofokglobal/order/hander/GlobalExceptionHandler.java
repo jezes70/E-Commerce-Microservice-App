@@ -21,14 +21,12 @@ public class GlobalExceptionHandler {
                 .status(BAD_REQUEST)
                 .body(exception.getMsg());
     }
-
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<String> handler(EntityNotFoundException exception) {
         return ResponseEntity
                 .status(BAD_REQUEST)
                 .body(exception.getMessage());
     }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<CustomErrorResponse> handleValidationExceptions(MethodArgumentNotValidException exception) {
         var errors = new HashMap<String, String>();
