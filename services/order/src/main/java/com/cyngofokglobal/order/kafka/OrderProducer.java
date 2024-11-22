@@ -13,12 +13,21 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class OrderProducer {
 
-    private final KafkaTemplate<String, OrderConfirmation> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     public void sendOrderConfirmation(OrderConfirmation orderConfirmation) {
         log.info("Sending order confirmation");
         Message<OrderConfirmation> message = MessageBuilder
                 .withPayload(orderConfirmation)
+                .setHeader(KafkaHeaders.TOPIC, "order-topic")
+                .build();
+        kafkaTemplate.send(message);
+    }
+
+    public void sendOrderCancellation(OrderCancellation orderCancellation) {
+        log.info("Order has been canceled");
+        Message<OrderCancellation> message = MessageBuilder
+                .withPayload(orderCancellation)
                 .setHeader(KafkaHeaders.TOPIC, "order-topic")
                 .build();
         kafkaTemplate.send(message);

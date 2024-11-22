@@ -1,5 +1,7 @@
-package com.cyngofokglobal.notification.kafka.order;
+package com.cyngofokglobal.notification.kafka.order.cancelorder;
 
+import com.cyngofokglobal.notification.kafka.order.Customer;
+import com.cyngofokglobal.notification.kafka.order.Product;
 import com.cyngofokglobal.notification.kafka.payment.PaymentMethod;
 
 import java.math.BigDecimal;

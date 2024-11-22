@@ -1,7 +1,7 @@
 package com.cyngofokglobal.notification.kafka;
 
 import com.cyngofokglobal.notification.email.EmailService;
-import com.cyngofokglobal.notification.kafka.order.OrderCancellation;
+import com.cyngofokglobal.notification.kafka.order.cancelorder.OrderCancellation;
 import com.cyngofokglobal.notification.kafka.order.OrderConfirmation;
 import com.cyngofokglobal.notification.kafka.payment.PaymentConfirmation;
 import com.cyngofokglobal.notification.notification.Notification;

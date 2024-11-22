@@ -1,6 +1,6 @@
 package com.cyngofokglobal.notification.notification;
 
-import com.cyngofokglobal.notification.kafka.order.OrderCancellation;
+import com.cyngofokglobal.notification.kafka.order.cancelorder.OrderCancellation;
 import com.cyngofokglobal.notification.kafka.order.OrderConfirmation;
 import com.cyngofokglobal.notification.kafka.payment.PaymentConfirmation;
 import lombok.*;

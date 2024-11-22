@@ -2,6 +2,7 @@ package com.cyngofokglobal.order.order;
 
 import com.cyngofokglobal.order.customer.CustomerClient;
 import com.cyngofokglobal.order.exception.BusinessException;
+import com.cyngofokglobal.order.kafka.OrderCancellation;
 import com.cyngofokglobal.order.kafka.OrderConfirmation;
 import com.cyngofokglobal.order.kafka.OrderProducer;
 import com.cyngofokglobal.order.orderline.OrderLineRequest;
@@ -60,6 +61,16 @@ public class OrderService {
 
         orderProducer.sendOrderConfirmation(
                 new OrderConfirmation(
+                        request.reference(),
+                        request.amount(),
+                        request.paymentMethod(),
+                        customer,
+                        purchaseProducts
+                )
+        );
+
+        orderProducer.sendOrderCancellation(
+                new OrderCancellation(
                         request.reference(),
                         request.amount(),
                         request.paymentMethod(),

@@ -1,4 +1,4 @@
-package com.cyngofokglobal.notification.kafka.order;
+package com.cyngofokglobal.notification.kafka.order.cancelorder;
 
 import lombok.Getter;
 
