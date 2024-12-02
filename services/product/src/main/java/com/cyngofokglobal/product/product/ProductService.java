@@ -21,7 +21,6 @@ public class ProductService {
         var product = mapper.toProduct(request);
         return repository.save(product).getId();
     }
-
     public List<ProductPurchaseResponse> purchaseProducts(List<ProductPurchaseRequest> request) {
         var productIds = request
                 .stream()

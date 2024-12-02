@@ -18,14 +18,14 @@ public class OrderLineService {
 
     }
     public List<OrderLineResponse> findAllByOrderId(Integer orderId) {
-         return repository.findAllByOrderId(orderId)
+         return repository.findAllByOrder_Id(orderId)
                  .stream()
                  .map(mapper::toOrderLineResponse)
                  .collect(Collectors.toList());
     }
 
     public List<OrderLineResponse> findOrderLinesByOrderId(Integer orderId) {
-        var orderLines = repository.findByOrderId(orderId);
+        var orderLines = repository.findByOrder_Id(orderId);
 
         return orderLines.stream()
                 .map(mapper::fromOrderLine)

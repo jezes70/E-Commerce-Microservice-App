@@ -4,10 +4,12 @@ VALUES
         (51, 'Books across various genres and topics', 'Books'),
         (52, 'Furniture and home decor items', 'Furniture'),
         (53, 'Clothing and fashion accessories', 'Apparel'),
-        (54, 'Health and personal care products', 'Health & Beauty');
+        (54, 'Health and personal care products', 'Health & Beauty')
+
+ON DUPLICATE KEY UPDATE name = VALUES(name);
 
 INSERT INTO product (id, description, name, available_quantity, price, category_id)
-VALUES
+VALUES ('Test Product', 'Sample', 100, 9.99, 1),
         (50, 'Smartphone with 128GB storage and dual camera', 'Smartphone', 100, 699.99, 50),
         (51, '4K Ultra HD Smart LED TV 55 inches', 'Smart TV', 30, 1200.00, 50),
         (52, 'Bluetooth Noise Cancelling Headphones', 'Headphones', 75, 199.99, 50),

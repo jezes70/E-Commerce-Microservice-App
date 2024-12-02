@@ -1,6 +1,6 @@
-package com.cyngofokglobal.order.hander;
+package com.cyngofokglobal.payment.hander;
 
-import com.cyngofokglobal.order.exception.BusinessException;
+import com.cyngofokglobal.payment.exception.BusinessException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -15,12 +15,6 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<String> handler(BusinessException exception) {
-        return ResponseEntity
-                .status(BAD_REQUEST)
-                .body(exception.getMsg());
-    }
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<String> handler(EntityNotFoundException exception) {
         return ResponseEntity
