@@ -24,5 +24,4 @@ public record OrderRequest(
         @NotEmpty(message = "You should at least purchase one or more product")
         List<PurchaseRequest> products
 
-) {
-}
+) {}

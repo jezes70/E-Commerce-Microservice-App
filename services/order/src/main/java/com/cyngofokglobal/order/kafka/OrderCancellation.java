@@ -14,5 +14,4 @@ public record OrderCancellation(
         PaymentMethod paymentMethod,
         CustomerResponse customer,
         List<PurchaseResponse> products
-) {
-}
+) {}

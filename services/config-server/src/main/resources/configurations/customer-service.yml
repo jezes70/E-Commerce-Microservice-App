@@ -1,8 +1,8 @@
 spring:
   data:
     mongodb:
-      username: morris
-      password: morris
+      username: admin
+      password: pass
       host: localhost
       port: 27017
       database: customer

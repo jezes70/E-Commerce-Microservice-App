@@ -41,10 +41,4 @@ public class GlobalExceptionHandler {
                 .body(new CustomErrorResponse(errors));
     }
 
-//    @ExceptionHandler(BusinessException.class)
-//    public ResponseEntity<String> handle(BusinessException exception) {
-//        return ResponseEntity
-//                .status(BAD_REQUEST)
-//                .body(exception.getMessage());
-//    }
 }
