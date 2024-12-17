@@ -1,6 +1,13 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: "http://localhost:9098/realms/micro-service"
   cloud:
     gateway:
+      default-filters:
+        - TokenRelay
       discovery:
         locator:
           enabled: true
