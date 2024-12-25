@@ -10,5 +10,4 @@ public record PaymentConfirmation(
         String customerFirstname,
         String customerLastname,
         String customerEmail
-) {
-}
+) {}

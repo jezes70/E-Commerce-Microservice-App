@@ -14,5 +14,4 @@ public record OrderCancellation(
         Customer customer,
         ReFundedAmount refundedAmount,
         List<Product> products
-) {
-}
+) {}

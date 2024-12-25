@@ -90,7 +90,7 @@ public class OrderService {
     public OrderResponse findById(Integer orderId) {
         return repository.findById(orderId)
                 .map(mapper::fromOrder)
-                .orElseThrow(() -> new EntityNotFoundException(format("No oder found with the provided ID: %d", orderId)));
+                .orElseThrow(() -> new EntityNotFoundException(format("No order found with the provided ID: %d", orderId)));
     }
 
     public void cancelOrder(Integer orderId) {
